@@ -1,0 +1,43 @@
+The robot during its navigation must be able to distinguish between a hindrance caused by an
+obstacle and a wall, and should thereby react accordingly. For this, there are two ultrasonic
+sensors mounted: one at lower level referred as obstacle detector and one at a height of 20 cm
+from the ground referred as wall sensor. If at any point, the robot gets readings from both
+obstacle sensor and wall sensor, it indicates that the obstruction encountered is a wall. If the
+wall sensor does not detect a hindrance, it means the hindrance is an obstacle and not a wall.
+The two behaviours of the robot have been described below:
+
+1. Wall Hindrance: As the predetermined initial condition is assumed to have wall on the
+left side and at the front after traversing, the robot will track on when the wall is found
+and accordingly take a left or right turn
+At the beginning the robot starts at the bottom left corner of the room (it can begin from the
+right corner of the room as well if wanted). Each time a wall is encountered the robot alternates
+between 180 degree turns towards right and left.
+2. Obstacle Hindrance: When the robot determines that the hindrance is an obstacle, it must
+navigate around the obstacle such that it still remains on its path. For this we have written a
+method that enables the robot to move around the obstacle traversing three faces of the obstacle
+and turning in a right, left and left for the first, second and third faces of the obstacle
+respectively. Once the robot has traversed the third face of the obstacle, it takes a 90 degree
+turn towards its right and the navigation process continues.
+
+Feedback Mechanism in Obstacle Avoidance:
+It is often observed that two motors given the same speeds may not make the robot move
+perfectly straight and it may begin to stray from its straight trajectory towards the left or right.
+This may lead to unwanted behaviour like the robot crashing into obstacles during turns,
+unwanted deviation in path etc. The feedback mechanism we have used will ensure that the
+robot always remains parallel to the obstacle faces while navigating around it. It is explained
+in detail below
+To ensure that the robot successfully navigates around an obstacle, we have set a threshold
+distance of 20 cm that the robot should always maintain from an obstacle face. After every unit
+interval of the robot moving forward, the obstacle ultrasonic sensor pings to recalculate the
+distance. In the event that the robot drifted slightly towards the obstacle, this distance will be
+less than 20 cm. In this case, we keep moving the left motor while the right motor is kept
+stationary till the distance between the robot and obstacle becomes 20cm. Similarly in the event
+that the robot drifted slightly away from the obstacle, this distance will be more than 20 cm.
+In this case, we keep moving the right motor while the left motor is kept stationary till the
+distance between the robot and obstacle becomes 20cm. In this way, the robot always maintains
+a constant distance between itself and the obstacle and avoids crashing into it at any instant and
+ensures a smooth navigation around the obstacle.
+During the entire navigation period the robot obstacle always takes feedback from its metal
+detector. At any point, it passes over a metallic object, the metal detector send a HIGH signal
+to the Arduino. This signal is read and the robot is made to stop for 3 seconds after which the
+robot resumes its navigation.
